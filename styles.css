@@ -1,0 +1,115 @@
+/* =========================================================
+   SILUETEANDO — diseño (tres paginas)
+   Materiales: noche, muro, papel kraft, tinta, rojo.
+   ========================================================= */
+:root{
+  --noche:   #12151a;
+  --muro:    #1c1814;
+  --papel:   #d9c7a1;
+  --hueso:   #ece3d2;
+  --apagado: #8d846f;
+  --rojo:    #b03a2c;
+
+  --display: "Anton", "Arial Narrow", system-ui, sans-serif;
+  --cuerpo:  "Work Sans", system-ui, -apple-system, sans-serif;
+  --maquina: "Special Elite", "Courier New", ui-monospace, monospace;
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html{ scroll-behavior:smooth; }
+body{
+  margin:0; background:var(--noche); color:var(--hueso);
+  font-family:var(--cuerpo); line-height:1.5; overflow-x:hidden;
+  overscroll-behavior-y:none; -webkit-font-smoothing:antialiased;
+  animation:entrar .7s ease both;
+}
+@keyframes entrar{ from{opacity:0} to{opacity:1} }
+body.yendo{ opacity:0; transition:opacity .42s ease; }   /* transicion entre paginas */
+
+/* ---------------- tipografia compartida ---------------- */
+.ficha{ font-family:var(--maquina); font-size:13px; letter-spacing:.18em; color:var(--apagado); text-transform:uppercase; }
+.ficha .reg{ color:var(--rojo); }
+.titulo{ font-family:var(--display); font-weight:400; font-size:clamp(34px,11vw,76px); line-height:.96; margin:0; text-transform:uppercase; }
+.lineas p{ font-size:clamp(17px,4.6vw,22px); margin:.35em 0; max-width:30ch; }
+.pie{ font-size:14px; color:var(--apagado); max-width:42ch; margin-top:10px; }
+.cita{ font-family:var(--maquina); font-size:clamp(16px,4.4vw,20px); color:var(--hueso); border-left:2px solid var(--rojo); padding-left:14px; max-width:34ch; margin-top:6px; }
+.consigna{ align-self:flex-start; font-family:var(--maquina); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--rojo); border:1px solid var(--rojo); padding:7px 12px; border-radius:2px; transform:rotate(-1.5deg); }
+
+.btn{
+  appearance:none; border:0; cursor:pointer; padding:15px 22px; border-radius:2px;
+  font-family:var(--maquina); font-size:14px; letter-spacing:.08em; text-transform:uppercase;
+  background:var(--papel); color:var(--noche); text-decoration:none; display:inline-block;
+  transition:transform .08s ease, opacity .2s ease;
+}
+.btn:active{ transform:translateY(1px); }
+.btn:disabled{ opacity:.3; pointer-events:none; }
+.btn--ghost{ background:transparent; color:var(--apagado); box-shadow:inset 0 0 0 1px rgba(217,199,161,.25); }
+
+/* figura fantasma reutilizable (motivo de fondo) */
+.fig{ fill:var(--papel); display:block; }
+
+/* =========================================================
+   PAGINA 1 — portada
+   ========================================================= */
+.portada{ min-height:100svh; display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start; padding:0 24px 16svh; position:relative; overflow:hidden; }
+.portada .fondo{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+.portada .fondo .fig{ position:absolute; right:-6%; bottom:0; height:96svh; opacity:.06; }
+.portada .marca{ position:relative; z-index:1; font-family:var(--display); font-size:clamp(56px,21vw,150px); line-height:.88; text-transform:uppercase; margin:0; }
+.portada .sub{ position:relative; z-index:1; font-family:var(--maquina); color:var(--apagado); letter-spacing:.1em; margin:10px 0 0; }
+.portada .entrar{ position:relative; z-index:1; margin-top:34px; }
+
+/* =========================================================
+   PAGINA 2 — pregunta + dibujo
+   ========================================================= */
+.panel{ min-height:100svh; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:12svh 24px; }
+.panel .bloque{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.panel.visible .bloque{ opacity:1; transform:none; }
+
+.instruccion{ font-family:var(--display); font-size:clamp(28px,9vw,52px); text-transform:uppercase; margin:0; line-height:1; }
+.ayuda{ font-size:15px; color:var(--apagado); max-width:34ch; }
+.tablero{ position:relative; width:100%; height:46svh; margin-top:6px; border:1px dashed rgba(217,199,161,.28); border-radius:3px; background:rgba(0,0,0,.18); touch-action:none; overflow:hidden; }
+.tablero canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.marca-toque{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--maquina); font-size:14px; color:var(--apagado); pointer-events:none; }
+.controles{ display:flex; gap:10px; margin-top:12px; }
+.controles .btn{ flex:1; text-align:center; }
+.cierre-dibujo{ font-family:var(--maquina); color:var(--hueso); font-size:15px; margin-top:16px; opacity:0; transform:translateY(8px); transition:opacity .6s ease, transform .6s ease; }
+.cierre-dibujo.on{ opacity:1; transform:none; }
+.seguir{ margin-top:18px; align-self:flex-start; opacity:0; pointer-events:none; transition:opacity .5s ease; }
+.seguir.on{ opacity:1; pointer-events:auto; }
+
+/* =========================================================
+   PAGINA 3 — desarrollo con paralaje
+   ========================================================= */
+.seccion{ position:relative; overflow:hidden; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:16svh 24px; border-top:1px solid rgba(217,199,161,.06); }
+.fondo{ position:absolute; left:0; right:0; top:-25%; height:150%; z-index:0; pointer-events:none; will-change:transform; }
+.fondo .fig{ position:absolute; opacity:.06; }
+.contenido{ position:relative; z-index:1; display:flex; flex-direction:column; gap:18px; }
+.contenido .bloque{ opacity:0; transform:translateY(24px); transition:opacity .85s ease, transform .85s ease; }
+.seccion.visible .contenido .bloque{ opacity:1; transform:none; }
+
+/* el muro final */
+.muro{ position:relative; width:100%; height:50svh; margin:10px 0; border-radius:3px; overflow:hidden; background:var(--muro); box-shadow:inset 0 0 0 1px rgba(0,0,0,.4); }
+.muro canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.numerazo{ font-family:var(--display); font-size:clamp(48px,17vw,120px); line-height:.9; color:var(--rojo); text-transform:uppercase; margin:4px 0 0; }
+.numerazo small{ display:block; font-family:var(--maquina); font-size:13px; letter-spacing:.18em; color:var(--apagado); }
+.sin-silueta{ font-family:var(--maquina); font-size:14px; color:var(--apagado); }
+.sin-silueta a{ color:var(--rojo); }
+
+/* ---------------- la silueta que camina (firma) ---------------- */
+.companion{ position:fixed; left:16px; bottom:14px; width:74px; height:108px; z-index:40; pointer-events:none; opacity:0; transition:opacity .6s ease; }
+.companion.on{ opacity:1; }
+.companion .mov{ width:100%; height:100%; transform-origin:0% 100%; will-change:transform; }
+.companion canvas{ width:100%; height:100%; display:block; animation:caminar 1.5s ease-in-out infinite; }
+@keyframes caminar{ 0%,100%{ transform:translateY(0) rotate(-1.2deg) } 50%{ transform:translateY(-5px) rotate(1.2deg) } }
+.companion.llego{ opacity:0; }
+
+/* ---------------- accesibilidad / reduccion de movimiento ---------------- */
+:focus-visible{ outline:2px solid var(--rojo); outline-offset:3px; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  body{ animation:none; }
+  .panel .bloque, .contenido .bloque{ transition:none; opacity:1; transform:none; }
+  .companion canvas{ animation:none; }
+  .fondo{ transform:none !important; }
+}
